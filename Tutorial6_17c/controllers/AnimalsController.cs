@@ -73,7 +73,7 @@ public class AnimalsController : ControllerBase
     }
     
     [HttpPut("/api/animals/{IdAnimal:int}")]
-    public IActionResult UpdateAnimal(int id, Animal animal)
+    public IActionResult UpdateAnimal(int IdAnimal, Animal animal)
     {
         //open connectiom
         using SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("Docker"));
@@ -96,7 +96,7 @@ public class AnimalsController : ControllerBase
     }
 
     [HttpDelete("/api/animals/{IdAnimal:int}")]
-    public IActionResult DeleteAnimal(int id)
+    public IActionResult DeleteAnimal(int IdAnimal)
     {
         //open connectiom
         using SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("Docker"));
@@ -107,7 +107,7 @@ public class AnimalsController : ControllerBase
         command.Connection = connection;
         command.CommandText = "DELETE FROM Animal WHERE IdAnimal = @IdAnimal";
         
-        command.Parameters.AddWithValue("@IdAnimal", id);
+        command.Parameters.AddWithValue("@IdAnimal", IdAnimal);
         
         //execute
         command.ExecuteNonQuery();
