@@ -17,10 +17,10 @@ public class AnimalsController : ControllerBase
     [HttpGet("/api/animals")]
     public IActionResult GetAnimals()
     {
-        using (SqlConnection connection2 = new SqlConnection()) ;
         //open connectiom
         using SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("Docker"));
         connection.Open();
+        
         //create command
         SqlCommand orderBy = new SqlCommand();
         orderBy.Connection = connection;
@@ -52,14 +52,15 @@ public class AnimalsController : ControllerBase
     [HttpPost("api/animals")]
     public IActionResult AddAnimal(AddAnimal animal)
     {
-        using (SqlConnection connection2 = new SqlConnection());
         //open connectiom
         using SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("Docker"));
         connection.Open();
+        
         //create command
         SqlCommand command = new SqlCommand();
         command.Connection = connection;
         command.CommandText = "Insert into Animal Values('@AnimalName', '@Description', '@Category', '@Area');";
+        
         command.Parameters.AddWithValue("@IdAnimal", animal.IdAnimal);
         command.Parameters.AddWithValue("@AnimalName", animal.Name);
         command.Parameters.AddWithValue("@Description", animal.Description);
@@ -72,12 +73,12 @@ public class AnimalsController : ControllerBase
     }
     
     [HttpPut("/api/animals/{IdAnimal:int}")]
-    public IActionResult UpdateStudent(int id, Animal animal)
+    public IActionResult UpdateAnimal(int id, Animal animal)
     {
-        using (SqlConnection connection2 = new SqlConnection());
         //open connectiom
         using SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("Docker"));
         connection.Open();
+        
         //create command
         SqlCommand command = new SqlCommand();
         command.Connection = connection;
@@ -88,6 +89,26 @@ public class AnimalsController : ControllerBase
         command.Parameters.AddWithValue("@Description", animal.Description);
         command.Parameters.AddWithValue("@Category", animal.Category);
         command.Parameters.AddWithValue("@Area", animal.Area);
+        
+        //execute
+        command.ExecuteNonQuery();
+        return Created("", null);
+    }
+
+    [HttpDelete("/api/animals/{IdAnimal:int}")]
+    public IActionResult DeleteAnimal(int id)
+    {
+        //open connectiom
+        using SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("Docker"));
+        connection.Open();
+        
+        //create command
+        SqlCommand command = new SqlCommand();
+        command.Connection = connection;
+        command.CommandText = "DELETE FROM Animal WHERE IdAnimal = @IdAnimal";
+        
+        command.Parameters.AddWithValue("@IdAnimal", id);
+        
         //execute
         command.ExecuteNonQuery();
         return Created("", null);
