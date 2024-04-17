@@ -49,7 +49,7 @@ public class AnimalsController : ControllerBase
         return Ok(animals);
     }
 
-    [HttpPost]
+    [HttpPost("api/animals")]
     public IActionResult AddAnimal(AddAnimal animal)
     {
         using (SqlConnection connection2 = new SqlConnection());
@@ -59,8 +59,13 @@ public class AnimalsController : ControllerBase
         //create command
         SqlCommand command = new SqlCommand();
         command.Connection = connection;
-        command.CommandText = "Insert into Animal Values('@animalName', '', '', '');";
-        command.Parameters.AddWithValue("@animalName", animal.Name);
+        command.CommandText = "Insert into Animal Values('@animalName', '@description', '@category', '@area');";
+        command.Parameters.AddWithValue("@idAnuimal", animal.IdAnimal);
+        command.Parameters.AddWithValue("@animalName", animal.IdAnimal);
+        command.Parameters.AddWithValue("@description", animal.IdAnimal);
+        command.Parameters.AddWithValue("@category", animal.IdAnimal);
+        command.Parameters.AddWithValue("@area", animal.IdAnimal);
+
         //execute
         command.ExecuteNonQuery();
         return Created("", null);
