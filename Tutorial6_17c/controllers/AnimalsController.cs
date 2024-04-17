@@ -61,20 +61,26 @@ public class AnimalsController : ControllerBase
         command.Connection = connection;
         command.CommandText = "Insert into Animal Values('@animalName', '@description', '@category', '@area');";
         command.Parameters.AddWithValue("@idAnuimal", animal.IdAnimal);
-        command.Parameters.AddWithValue("@animalName", animal.IdAnimal);
-        command.Parameters.AddWithValue("@description", animal.IdAnimal);
-        command.Parameters.AddWithValue("@category", animal.IdAnimal);
-        command.Parameters.AddWithValue("@area", animal.IdAnimal);
+        command.Parameters.AddWithValue("@animalName", animal.Name);
+        command.Parameters.AddWithValue("@description", animal.Description);
+        command.Parameters.AddWithValue("@category", animal.Category);
+        command.Parameters.AddWithValue("@area", animal.Area);
 
         //execute
         command.ExecuteNonQuery();
         return Created("", null);
     }
     
-    [HttpPut]
+    [HttpPut("/api/animals/{IdAnimal:int}")]
     public IActionResult UpdateStudent(int id, Animal animal)
     {
-        var affectedCount = _studentsService.UpdateStudent(student);
-        return NoContent();
+        using (SqlConnection connection2 = new SqlConnection());
+        //open connectiom
+        using SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("Docker"));
+        connection.Open();
+        //create command
+        SqlCommand command = new SqlCommand();
+        command.Connection = connection;
+        command.CommandText = 
     }
 }
