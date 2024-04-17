@@ -4,6 +4,7 @@ namespace Tutorial6_17c.dto;
 
 public class AddAnimal
 {
+    public int IdAnimal { get; set; }
     //[MinLength(3)]
     [Required]
     [MaxLength(200)]
