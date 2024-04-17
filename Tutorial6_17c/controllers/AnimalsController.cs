@@ -59,12 +59,12 @@ public class AnimalsController : ControllerBase
         //create command
         SqlCommand command = new SqlCommand();
         command.Connection = connection;
-        command.CommandText = "Insert into Animal Values('@animalName', '@description', '@category', '@area');";
-        command.Parameters.AddWithValue("@idAnuimal", animal.IdAnimal);
-        command.Parameters.AddWithValue("@animalName", animal.Name);
-        command.Parameters.AddWithValue("@description", animal.Description);
-        command.Parameters.AddWithValue("@category", animal.Category);
-        command.Parameters.AddWithValue("@area", animal.Area);
+        command.CommandText = "Insert into Animal Values('@AnimalName', '@Description', '@Category', '@Area');";
+        command.Parameters.AddWithValue("@IdAnimal", animal.IdAnimal);
+        command.Parameters.AddWithValue("@AnimalName", animal.Name);
+        command.Parameters.AddWithValue("@Description", animal.Description);
+        command.Parameters.AddWithValue("@Category", animal.Category);
+        command.Parameters.AddWithValue("@Area", animal.Area);
 
         //execute
         command.ExecuteNonQuery();
@@ -81,6 +81,15 @@ public class AnimalsController : ControllerBase
         //create command
         SqlCommand command = new SqlCommand();
         command.Connection = connection;
-        command.CommandText = 
+        command.CommandText = "UPDATE Animal SET Name=@AnimalName, Description=@Description, Category=@Category, Area=@Area WHERE IdAnimal = @IdAnimal";
+        
+        command.Parameters.AddWithValue("@IdAnimal", animal.IdAnimal);
+        command.Parameters.AddWithValue("@AnimalName", animal.Name);
+        command.Parameters.AddWithValue("@Description", animal.Description);
+        command.Parameters.AddWithValue("@Category", animal.Category);
+        command.Parameters.AddWithValue("@Area", animal.Area);
+        //execute
+        command.ExecuteNonQuery();
+        return Created("", null);
     }
 }
